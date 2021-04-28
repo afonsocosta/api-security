@@ -2,11 +2,9 @@ package br.com.santasecret.security.config;
 
 import br.com.santasecret.security.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -32,11 +30,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-
-    @Autowired
+ /*   @Autowired
     public void globalConfiguration(AuthenticationManagerBuilder auth, UserService userService) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(this.encoder());
-    }
+    }*/
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -44,6 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/webjars", "/api/v1/user", "/static/**"
         };
         http
+
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .requestMatchers()
@@ -58,6 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/management/health").permitAll()
                 .antMatchers("/management/info").permitAll()
                 .antMatchers("/management/**").hasRole("ACTUATOR").and().httpBasic()
-                .and().cors();
+                .and()
+                .cors();
     }
 }

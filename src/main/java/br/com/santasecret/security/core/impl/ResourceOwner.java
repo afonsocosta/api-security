@@ -1,3 +1,4 @@
+/*
 package br.com.santasecret.security.core.impl;
 
 import br.com.santasecret.security.entity.User;
@@ -20,7 +21,9 @@ public class ResourceOwner implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> roles = new ArrayList<>();
-        roles.add(new SimpleGrantedAuthority(this.user.getRole()));
+        user.getRoles().forEach(role -> {
+            roles.add(new SimpleGrantedAuthority(role.getName()));
+        });
         return roles;
     }
 
@@ -53,4 +56,4 @@ public class ResourceOwner implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-}
+}*/

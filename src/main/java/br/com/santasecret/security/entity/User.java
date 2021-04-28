@@ -4,9 +4,11 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(schema = "sc_security", name = "user")
+@Table(schema = "oauth", name = "user")
 @Data
 public class User implements Serializable {
 
@@ -31,5 +33,13 @@ public class User implements Serializable {
 
     @Column(name = "role")
     private String role;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @JoinTable(
+            name = "user_role",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")}
+    )
+    Set<Role> roles = new HashSet<>();
 
 }
